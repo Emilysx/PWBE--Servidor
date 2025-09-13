@@ -1,12 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Filmes</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1> Login </h1>
+    <header>
+        <h1> Filmes </h1>
+    </header>
+    
+    <main>
+        <section class="containerPrincipal">
+            <h2>Login</h2>
+            
+            <form class="formulario" action="/login">
+                <fieldset class="campoFormulario">
+                    <label for="usuario" class="labelFormulario">Usuário:</label>
+                    <input 
+                        type="text" 
+                        id="usuario" 
+                        name="usuario" 
+                        class="inputFormulario"  
+                        placeholder="Digite seu usuário"
+                    />
+                </fieldset>
+                
+                <fieldset class="campoFormulario">
+                    <label for="senha" class="labelFormulario">Senha:</label>
+                    <input 
+                        type="password" 
+                        id="senha" 
+                        name="senha" 
+                        class="inputFormulario"  
+                        placeholder="Digite sua senha"
+                    />
+                </fieldset>
+                
+                <button type="submit" class="botaoPrimario">Entrar</button>
+            </form>
+            
+            <a href="#" class="linkEsqueceuSenha">Esqueci minha senha</a>
+            
+            <nav class="navegacao">
+                <a href="index.html" class="botaoSecundario">Voltar à Página Inicial</a>
+            </nav>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Filmes - Sistema de Gerenciamento de Filmes</p>
+    </footer>
 </body>
 </html>

@@ -16,22 +16,28 @@
 import os # abrir arquivos (manipular arquivos)
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 
+# criando uma classe personalizada para tratar requisições
 class MyHandle(SimpleHTTPRequestHandler):
     def list_directory(self, path):
         try:
+            # para abrir o arquivo index.html da pasta
             f = open(os.path.join(path, 'index.html'), encoding='utf-8')   
 
-            #cabeçalho
+            # cabeçalho da resposta
             self.send_response(200)
             self.send_header("Content - type", "text/html")
             self.end_headers()
+
+            # envia o conteúdo do index.html para o navegador
             self.wfile.write(f.read().encode('utf-8'))
             f.close()
+
             return None
         except FileNotFoundError:
             pass
         return super().list_directory(path)
     
+    # método que lista diretórios
     def do_GET(self):
         if self.path == "/login":
             try:
@@ -45,6 +51,7 @@ class MyHandle(SimpleHTTPRequestHandler):
             except FileNotFoundError:
                 self.send_error(404, "File Not Found")
         
+        # rota /cadastro
         elif self.path == "/cadastro":
             try:
                 with open(os.path.join(os.getcwd(), 'cadastro.html'), encoding='utf-8') as cadastro:
@@ -57,6 +64,7 @@ class MyHandle(SimpleHTTPRequestHandler):
             except FileNotFoundError:
                 self.send_error(404, "File Not Found")
 
+        # rota /Listar Filmes
         elif self.path == "/listarfilmes":
             try:
                 with open(os.path.join(os.getcwd(), 'listar_filmes.html'), encoding='utf-8') as listar_filmes:
@@ -72,7 +80,7 @@ class MyHandle(SimpleHTTPRequestHandler):
         else:
             super().do_GET()
 
-
+# função principal para rodar o servidor
 def main():
     server_address = ('', 8000)
     httpd = HTTPServer(server_address, MyHandle)
@@ -80,4 +88,3 @@ def main():
     httpd.serve_forever()
 
 main()
-        

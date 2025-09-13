@@ -1,5 +1,246 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-body{
-    font-family: "Poppins", sans-serif;;
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #495362;
+  --background-color: #f1f1f1;
+  --text-color: #1e293b;
+  --border-color: #ebebeb;
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: white;
+  padding: 1rem 0;
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+main {
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.containerPrincipal {
+  max-width: 500px;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.containerPrincipalCadastro {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.formularioCadastro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  border: none;
+}
+
+.colunaCadastro {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.botoesCadastro {
+  display: flex;
+  flex-direction: row;   
+  gap: 1rem;              
+  justify-content: center; 
+  margin-top: 2rem;
+}
+
+.botoesCadastro button,
+.botoesCadastro a {
+  flex: 1;                
+  display: flex;          
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;  
+  transition: 0.2s ease-in-out; 
+}
+
+.botaoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.botaoPrimario {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  margin-bottom: 10px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.botaoPrimario:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.botaoSecundario {
+  background-color: transparent;
+  display: block;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  margin-bottom: 10px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.botaoSecundario:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.campoFormulario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: none;
+}
+
+.labelFormulario {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.inputFormulario {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.inputFormulario:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+}
+
+.textareaFormulario {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  min-height: 120px;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.textareaFormulario:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+}
+
+.linkEsqueceuSenha {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.linkEsqueceuSenha:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.mensagemVazia {
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 1.1rem;
+  margin: 3rem 0;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.navegacao {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+  margin-top: 3rem;
 }

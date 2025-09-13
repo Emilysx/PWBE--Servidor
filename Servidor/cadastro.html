@@ -1,13 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title> Cadastro </title>
 </head>
 <body>
-    <h1> Cadastro de Filmes </h1>
+    <header>
+        <h1> Filmes</h1>
+    </header>
     
+    <main>
+        <section class="containerPrincipalCadastro">
+            <h2>Cadastrar Novo Filme</h2>
+            
+            <form action="/cadastro">
+                <div class="formularioCadastro">
+                    <div class="colunaCadastro">
+                        <fieldset class="campoFormulario">
+                            <label for="nomeFilme" class="labelFormulario">Nome do Filme:</label>
+                            <input 
+                                type="text" 
+                                id="nomeFilme" 
+                                name="nomeFilme" 
+                                class="inputFormulario" 
+                                placeholder="Digite o nome do filme"
+                            />
+                        </fieldset>
+                        
+                        <fieldset class="campoFormulario">
+                            <label for="atores" class="labelFormulario">Atores:</label>
+                            <input 
+                                type="text" 
+                                id="atores" 
+                                name="atores" 
+                                class="inputFormulario" 
+                                placeholder="Digite os nomes dos atores principais"
+                            />
+                        </fieldset>
+                        
+                        <fieldset class="campoFormulario">
+                            <label for="diretor" class="labelFormulario">Diretor:</label>
+                            <input 
+                                type="text" 
+                                id="diretor" 
+                                name="diretor" 
+                                class="inputFormulario" 
+                                placeholder="Digite o nome do diretor"
+                            />
+                        </fieldset>
+                        
+                        <fieldset class="campoFormulario">
+                            <label for="ano" class="labelFormulario">Ano:</label>
+                            <input 
+                                type="number" 
+                                id="ano" 
+                                name="ano" 
+                                class="inputFormulario" 
+                                min="1900" 
+                                max="2025" 
+                                placeholder="Ano de lançamento"
+                            />
+                        </fieldset>
+                    </div>
+                    
+                    <div class="colunaCadastro">
+                        <fieldset class="campoFormulario">
+                            <label for="genero" class="labelFormulario">Gênero:</label>
+                            <input 
+                                type="text" 
+                                id="genero" 
+                                name="genero" 
+                                class="inputFormulario" 
+                                placeholder="Ex: Ação, Drama, Comédia"
+                            />
+                        </fieldset>
+                        
+                        <fieldset class="campoFormulario">
+                            <label for="produtora" class="labelFormulario">Produtora:</label>
+                            <input 
+                                type="text" 
+                                id="produtora" 
+                                name="produtora" 
+                                class="inputFormulario" 
+                                placeholder="Nome da produtora"
+                            />
+                        </fieldset>
+                        
+                        <fieldset class="campoFormulario">
+                            <label for="sinopse" class="labelFormulario">Sinopse:</label>
+                            <textarea 
+                                id="sinopse" 
+                                name="sinopse" 
+                                class="textareaFormulario" 
+                                placeholder="Digite um resumo do filme..."
+                            ></textarea>
+                        </fieldset>
+                    </div>
+                </div>
+                
+                <div class="botoesCadastro">
+                    <a href="index.html " class="botaoSecundario">Voltar à Página Inicial</a>
+                    <button type="submit" class="botaoPrimario">Cadastrar Filme</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Filmes - Sistema de Gerenciamento de Filmes</p>
+    </footer>
 </body>
 </html>
