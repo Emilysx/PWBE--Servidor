@@ -15,6 +15,7 @@
 
 import os # abrir arquivos (manipular arquivos)
 from http.server import SimpleHTTPRequestHandler, HTTPServer
+from urllib.parse import parse_qs
 
 # criando uma classe personalizada para tratar requisições
 class MyHandle(SimpleHTTPRequestHandler):
@@ -36,6 +37,15 @@ class MyHandle(SimpleHTTPRequestHandler):
         except FileNotFoundError:
             pass
         return super().list_directory(path)
+    
+    def accont_user(self, login, password):
+        loga = "Emily"
+        senha = 12345
+
+        if login == loga and senha == password:
+            return "Usuario logado"
+        else:
+            return "Usuario não existe"
     
     # método que lista diretórios
     def do_GET(self):
@@ -79,6 +89,57 @@ class MyHandle(SimpleHTTPRequestHandler):
 
         else:
             super().do_GET()
+
+    #Função do Post
+    def do_POST(self):
+        if self.path == '/login':
+            content_length = int(self.headers['Content-length'])
+            body = self.rfile.read(content_length).decode('utf-8')
+            form_data = parse_qs(body)
+
+            login = form_data.get('usuario', [""])[0]
+            password = int(form_data.get('senha', [""])[0])
+            logou = self.accont_user(login, password)
+
+            print("Data Form: ")
+            print("Usuário: ", form_data.get('usuario', [""])[0])
+            print("Senha: ", form_data.get('senha', [""])[0])
+
+            self.send_response(200)
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(logou.encode('utf-8'))
+        
+        elif self.path == '/cadastro':
+            content_length = int(self.headers['Content-length'])
+            body = self.rfile.read(content_length).decode('utf-8')
+            form_data = parse_qs(body)
+
+            # Pega os dados do formulário de cadastro
+            filme = form_data.get('filme', [""])[0]
+            atores = form_data.get('atores', [""])[0]
+            diretor = form_data.get('diretor', [""])[0]
+            ano = int(form_data.get('ano', [""])[0])
+            genero = form_data.get('genero', [""])[0]
+            produtora = form_data.get('produtora', [""])[0]
+            sinopse = form_data.get('sinopse', [""])[0]
+
+            print("Novo cadastro:")
+            print("Nome do Filme: ", form_data.get('filme', [""])[0])
+            print("Atores: ", form_data.get('atores', [""])[0])
+            print("Diretor: ",  form_data.get('diretor', [""])[0])
+            print("Ano: ", int(form_data.get('ano', [""])[0]))
+            print("Genêro: ", form_data.get('genero', [""])[0])
+            print("Produtora: ", form_data.get('produtora', [""])[0])
+            print("Sinopse: ", form_data.get('sinopse', [""])[0])
+
+            self.send_response(200)
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(logou.encode('utf-8'))
+
+        else:
+            super(MyHandle, self).do_POST()
 
 # função principal para rodar o servidor
 def main():
