@@ -16,6 +16,7 @@
 import os # abrir arquivos (manipular arquivos)
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
+import json
 
 # criando uma classe personalizada para tratar requisições
 class MyHandle(SimpleHTTPRequestHandler):
@@ -93,8 +94,11 @@ class MyHandle(SimpleHTTPRequestHandler):
     #Função do Post
     def do_POST(self):
         if self.path == '/login':
+            # Lê o tamanho do conteúdo enviado pelo formulário
             content_length = int(self.headers['Content-length'])
+            # Lê o corpo da requisição (os dados enviados pelo formulário)
             body = self.rfile.read(content_length).decode('utf-8')
+            # Converte os dados do corpo para um dicionário (chave=campo, valor=dado enviado)
             form_data = parse_qs(body)
 
             login = form_data.get('usuario', [""])[0]
@@ -111,32 +115,58 @@ class MyHandle(SimpleHTTPRequestHandler):
             self.wfile.write(logou.encode('utf-8'))
         
         elif self.path == '/cadastro':
+            # Lê o tamanho do conteúdo enviado pelo formulário
             content_length = int(self.headers['Content-length'])
+            # Lê o corpo da requisição (os dados enviados pelo formulário)
             body = self.rfile.read(content_length).decode('utf-8')
+            # Converte os dados do corpo para um dicionário (chave=campo, valor=dado enviado)
             form_data = parse_qs(body)
 
             # Pega os dados do formulário de cadastro
             filme = form_data.get('filme', [""])[0]
             atores = form_data.get('atores', [""])[0]
             diretor = form_data.get('diretor', [""])[0]
-            ano = int(form_data.get('ano', [""])[0])
+            ano = form_data.get('ano', [""])[0]
             genero = form_data.get('genero', [""])[0]
             produtora = form_data.get('produtora', [""])[0]
             sinopse = form_data.get('sinopse', [""])[0]
 
-            print("Novo cadastro:")
-            print("Nome do Filme: ", form_data.get('filme', [""])[0])
-            print("Atores: ", form_data.get('atores', [""])[0])
-            print("Diretor: ",  form_data.get('diretor', [""])[0])
-            print("Ano: ", int(form_data.get('ano', [""])[0]))
-            print("Genêro: ", form_data.get('genero', [""])[0])
-            print("Produtora: ", form_data.get('produtora', [""])[0])
-            print("Sinopse: ", form_data.get('sinopse', [""])[0])
+            # Cria o "objeto filme" em formato de dicionário Python
+            novo_filme = {
+                "filme": filme,
+                "atores": atores,
+                "diretor": diretor,
+                "ano": ano,
+                "genero": genero,
+                "produtora": produtora,
+                "sinopse": sinopse
+            }
+
+            # Salvar os filmes em um arquivo JSON
+            try:
+                # Abre o arquivo (se existir) e carrega os filmes já cadastrados
+                with open("filmes.json", "r", encoding="utf-8") as f:
+                    filmes = json.load(f)
+            except FileNotFoundError:
+                # Se o arquivo não existir, cria uma lista vazia
+                filmes = []
+
+            # Adiciona o novo filme na lista
+            filmes.append(novo_filme)
+
+            # Salva de volta no JSON (atualiza o arquivo)
+            with open("filmes.json", "w", encoding="utf-8") as f:
+                json.dump(filmes, f, ensure_ascii=False, indent=4)
+
+            # Mostra no console (só para debug mesmo)
+            print("Novo cadastro de filme:")
+            print(json.dumps(novo_filme, indent=4, ensure_ascii=False))
+
 
             self.send_response(200)
             self.send_header("Content-type", "text/html; charset=utf-8")
             self.end_headers()
-            self.wfile.write(logou.encode('utf-8'))
+            self.wfile.write("Filme cadastrado com sucesso!".encode('utf-8'))
 
         else:
             super(MyHandle, self).do_POST()

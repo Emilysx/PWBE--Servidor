@@ -15,13 +15,12 @@
         <section class="containerPrincipal">
             <h2>Filmes Cadastrados</h2>
             
-            <article class="mensagemVazia">
-                <p> Não há filmes cadastrados no momento.</p>
-                <p>Comece adicionando seu primeiro filme ao sistema!</p>
+            <article id="listaFilmes" class="mensagemVazia">
+                <p> Carregando filmes...</p>
             </article>
             
             <nav class="navegacao">
-                <a href="cadastro.html" class="botaoSecundario">Cadastrar Primeiro Filme</a>
+                <a href="cadastro.html" class="botaoSecundario">Cadastrar Novo Filme</a>
                 <a href="index.html" class="botaoSecundario">Voltar à Página Inicial</a>
             </nav>
         </section>
@@ -30,5 +29,36 @@
     <footer>
         <p>&copy; 2025 Filmes - Sistema de Gerenciamento de Filmes</p>
     </footer>
+
+    <script>
+        // Quando a página carregar, buscar os filmes no servidor
+        fetch("/listarfilmes")
+            .then(response => response.json())
+            .then(filmes => {
+                const container = document.getElementById("listaFilmes");
+
+                if (filmes.length === 0) {
+                    container.innerHTML = `
+                        <p>Não há filmes cadastrados no momento.</p>
+                        <p>Comece adicionando seu primeiro filme ao sistema!</p>
+                    `;
+                } else {
+                    let html = "<ul>";
+                    filmes.forEach(f => {
+                        html += `<li>
+                            <strong>${f.filme}</strong> 
+                            (${f.ano}) - Diretor: ${f.diretor}, Gênero: ${f.genero}
+                            <br><em>Sinopse:</em> ${f.sinopse}
+                        </li>`;
+                    });
+                    html += "</ul>";
+                    container.innerHTML = html;
+                }
+            })
+            .catch(error => {
+                document.getElementById("listaFilmes").innerHTML = "<p>Erro ao carregar filmes.</p>";
+                console.error(error);
+            });
+    </script>
 </body>
 </html>
