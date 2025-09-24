@@ -95,15 +95,43 @@ class MyHandle(SimpleHTTPRequestHandler):
         # rota /Listar Filmes
         elif path in ["/listarfilmes", "/listarfilmes/", "/listar_filmes.html"]:
             try:
-                with open(os.path.join(os.getcwd(), 'listar_filmes.html'), encoding='utf-8') as listar_filmes:
-                    content = listar_filmes.read()
+                with open("filmes.json", "r", encoding="utf-8") as f:
+                    filmes = json.load(f)
+
+                # monta lista em HTML
+                lista_html = "<h2>Filmes Cadastrados</h2><ul>"
+                for filme in filmes:
+                    lista_html += f"""
+                    <li>
+                        <strong>{filme['nomeFilme']}</strong> ({filme['ano']}) <br>
+                        Diretor: {filme['diretor']} <br>
+                        Atores: {filme['atores']} <br>
+                        Gênero: {filme['genero']} <br>
+                        Produtora: {filme['produtora']} <br>
+                        Sinopse: {filme['sinopse']}
+                    </li><br>
+                    """
+                lista_html += "</ul>"
+
+                # abre o HTML base
+                with open("listar_filmes.html", "r", encoding="utf-8") as f:
+                    content = f.read()
+
+                # insere a lista no lugar do article
+                content = content.replace(
+                    '<article id="listaFilmes" class="mensagemVazia">\n <p> Carregando filmes...</p>\n </article>',
+                    f'<article id="listaFilmes">{lista_html}</article>'
+                )
+
+                # envia resposta final
                 self.send_response(200)
                 self.send_header("Content-type", "text/html")
                 self.end_headers()
-                self.wfile.write(content.encode('utf-8'))
+                self.wfile.write(content.encode("utf-8"))
+
 
             except FileNotFoundError:
-                self.send_error(404, "File Not Found")
+                self.send_error(404, "Arquivo de filmes não encontrado")
 
         else:
             super().do_GET()

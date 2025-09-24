@@ -1,11 +1,11 @@
 [
     {
-        "nomeFilme": "",
-        "atores": "",
-        "diretor": "",
-        "ano": "",
-        "genero": "",
-        "produtora": "",
-        "sinopse": ""
+        "nomeFilme": "Alice no País das Maravilhas",
+        "atores": "Alice, Coelho, Chapeleiro Maluco, Rainha de Copas, Gato",
+        "diretor": "Tim Burton",
+        "ano": "1980",
+        "genero": "Fantasia, Aventura",
+        "produtora": "Disney",
+        "sinopse": "Alice, agora com 19 anos, retorna ao País das Maravilhas, reencontrando amigos peculiares e descobrindo que seu destino é derrotar a Rainha Vermelha e restaurar a paz no reino."
     }
 ]
