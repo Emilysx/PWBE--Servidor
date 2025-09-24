@@ -17,6 +17,7 @@ import os # abrir arquivos (manipular arquivos)
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
 import json
+from urllib.parse import urlparse  #  para processar a URL sem query string
 
 # criando uma classe personalizada para tratar requisições
 class MyHandle(SimpleHTTPRequestHandler):
@@ -50,7 +51,23 @@ class MyHandle(SimpleHTTPRequestHandler):
     
     # método que lista diretórios
     def do_GET(self):
-        if self.path == "/login":
+        # remove a query string da URL para comparação
+        path = urlparse(self.path).path
+
+        # rota principal "/" redireciona para index.html
+        if self.path in ["/", "/index", "/index.html"]:
+            try:
+                with open(os.path.join(os.getcwd(), 'index.html'), encoding='utf-8') as index:
+                    content = index.read()
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                self.wfile.write(content.encode('utf-8'))
+
+            except FileNotFoundError:
+                self.send_error(404, "File Not Found")
+
+        elif self.path == "/login":
             try:
                 with open(os.path.join(os.getcwd(), 'login.html'), encoding='utf-8') as login:
                     content = login.read()
@@ -63,7 +80,7 @@ class MyHandle(SimpleHTTPRequestHandler):
                 self.send_error(404, "File Not Found")
         
         # rota /cadastro
-        elif self.path == "/cadastro":
+        elif path in ["/cadastro", "/cadastro/"]:
             try:
                 with open(os.path.join(os.getcwd(), 'cadastro.html'), encoding='utf-8') as cadastro:
                     content = cadastro.read()
@@ -76,7 +93,7 @@ class MyHandle(SimpleHTTPRequestHandler):
                 self.send_error(404, "File Not Found")
 
         # rota /Listar Filmes
-        elif self.path == "/listarfilmes":
+        elif path in ["/listarfilmes", "/listarfilmes/", "/listar_filmes.html"]:
             try:
                 with open(os.path.join(os.getcwd(), 'listar_filmes.html'), encoding='utf-8') as listar_filmes:
                     content = listar_filmes.read()
@@ -93,7 +110,9 @@ class MyHandle(SimpleHTTPRequestHandler):
 
     #Função do Post
     def do_POST(self):
-        if self.path == '/login':
+        path = urlparse(self.path).path
+
+        if path == '/login':
             # Lê o tamanho do conteúdo enviado pelo formulário
             content_length = int(self.headers['Content-length'])
             # Lê o corpo da requisição (os dados enviados pelo formulário)
@@ -114,16 +133,14 @@ class MyHandle(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(logou.encode('utf-8'))
         
-        elif self.path == '/cadastro':
-            # Lê o tamanho do conteúdo enviado pelo formulário
+        elif path in ["/cadastro", "/cadastro/"]:
+
             content_length = int(self.headers['Content-length'])
-            # Lê o corpo da requisição (os dados enviados pelo formulário)
             body = self.rfile.read(content_length).decode('utf-8')
-            # Converte os dados do corpo para um dicionário (chave=campo, valor=dado enviado)
             form_data = parse_qs(body)
 
-            # Pega os dados do formulário de cadastro
-            filme = form_data.get('filme', [""])[0]
+            # Pega os dados do formulário
+            filme = form_data.get('nomeFilme', [""])[0]
             atores = form_data.get('atores', [""])[0]
             diretor = form_data.get('diretor', [""])[0]
             ano = form_data.get('ano', [""])[0]
@@ -131,9 +148,9 @@ class MyHandle(SimpleHTTPRequestHandler):
             produtora = form_data.get('produtora', [""])[0]
             sinopse = form_data.get('sinopse', [""])[0]
 
-            # Cria o "objeto filme" em formato de dicionário Python
+            # Cria o objeto filme
             novo_filme = {
-                "filme": filme,
+                "nomeFilme": filme,
                 "atores": atores,
                 "diretor": diretor,
                 "ano": ano,
@@ -142,31 +159,25 @@ class MyHandle(SimpleHTTPRequestHandler):
                 "sinopse": sinopse
             }
 
-            # Salvar os filmes em um arquivo JSON
+            # Salva no JSON
             try:
-                # Abre o arquivo (se existir) e carrega os filmes já cadastrados
                 with open("filmes.json", "r", encoding="utf-8") as f:
                     filmes = json.load(f)
             except FileNotFoundError:
-                # Se o arquivo não existir, cria uma lista vazia
                 filmes = []
 
-            # Adiciona o novo filme na lista
             filmes.append(novo_filme)
 
-            # Salva de volta no JSON (atualiza o arquivo)
             with open("filmes.json", "w", encoding="utf-8") as f:
                 json.dump(filmes, f, ensure_ascii=False, indent=4)
 
-            # Mostra no console (só para debug mesmo)
             print("Novo cadastro de filme:")
             print(json.dumps(novo_filme, indent=4, ensure_ascii=False))
 
-
-            self.send_response(200)
-            self.send_header("Content-type", "text/html; charset=utf-8")
+            # --- REDIRECIONAMENTO PARA LISTAGEM ---
+            self.send_response(303)  # código 303 = redirecionamento após POST
+            self.send_header("Location", "/listar_filmes.html")
             self.end_headers()
-            self.wfile.write("Filme cadastrado com sucesso!".encode('utf-8'))
 
         else:
             super(MyHandle, self).do_POST()

@@ -33,32 +33,24 @@
     <script>
         // Quando a página carregar, buscar os filmes no servidor
         fetch("/listarfilmes")
-            .then(response => response.json())
-            .then(filmes => {
-                const container = document.getElementById("listaFilmes");
-
-                if (filmes.length === 0) {
-                    container.innerHTML = `
-                        <p>Não há filmes cadastrados no momento.</p>
-                        <p>Comece adicionando seu primeiro filme ao sistema!</p>
-                    `;
-                } else {
-                    let html = "<ul>";
-                    filmes.forEach(f => {
-                        html += `<li>
-                            <strong>${f.filme}</strong> 
-                            (${f.ano}) - Diretor: ${f.diretor}, Gênero: ${f.genero}
-                            <br><em>Sinopse:</em> ${f.sinopse}
-                        </li>`;
-                    });
-                    html += "</ul>";
-                    container.innerHTML = html;
-                }
-            })
-            .catch(error => {
-                document.getElementById("listaFilmes").innerHTML = "<p>Erro ao carregar filmes.</p>";
-                console.error(error);
-            });
+        .then(response => response.json())
+        .then(filmes => {
+            const container = document.getElementById("listaFilmes");
+            if (filmes.length === 0) {
+                container.innerHTML = "<p>Não há filmes cadastrados no momento.</p>";
+            } else {
+                let html = "<ul>";
+                filmes.forEach(f => {
+                    html += `<li><strong>${f.filme}</strong> (${f.ano}) - Diretor: ${f.diretor}, Gênero: ${f.genero}<br><em>Sinopse:</em> ${f.sinopse}</li>`;
+                });
+                html += "</ul>";
+                container.innerHTML = html;
+            }
+        })
+        .catch(error => {
+            document.getElementById("listaFilmes").innerHTML = "<p>Erro ao carregar filmes.</p>";
+            console.error(error);
+        });
     </script>
 </body>
 </html>
