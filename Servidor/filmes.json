@@ -16,5 +16,23 @@
         "genero": "Animação, Fantasia, Aventura",
         "produtora": "Walt Disney Animation Studios",
         "sinopse": "Rapunzel vive trancada em uma torre, sem conhecer o mundo exterior. Quando conhece Flynn Rider, parte em uma aventura cheia de descobertas."
+    },
+    {
+        "nomeFilme": "Cinderela",
+        "atores": "Cinderela, Madrasta, Drizella, Anastasia, Príncipe",
+        "diretor": "Clyde Geronimi, Wilfred Jackson, Hamilton Luske",
+        "ano": "1950",
+        "genero": "Animação, Fantasia",
+        "produtora": "Walt Disney Productions",
+        "sinopse": "Cinderela, maltratada pela madrasta, vai ao baile com a ajuda da Fada Madrinha, encanta o Príncipe e deixa para trás o sapatinho de cristal que muda sua vida."
+    },
+    {
+        "nomeFilme": "Bela, Fera, Gaston",
+        "atores": " Bela, Fera",
+        "diretor": "Gary Trousdale, Kirk Wise",
+        "ano": "1991",
+        "genero": "Animação, Fantasia",
+        "produtora": "Walt Disney Animation Studios",
+        "sinopse": "Bela se sacrifica pelo pai e passa a viver no castelo da Fera. Aos poucos, descobre sua bondade e, com o verdadeiro amor, quebra a maldição."
     }
 ]
