@@ -18,6 +18,7 @@ from http.server import SimpleHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
 import json
 from urllib.parse import urlparse  #  para processar a URL sem query string
+import re # para conseguir o article
 
 # criando uma classe personalizada para tratar requisições
 class MyHandle(SimpleHTTPRequestHandler):
@@ -103,7 +104,8 @@ class MyHandle(SimpleHTTPRequestHandler):
                 for filme in filmes:
                     lista_html += f"""
                     <li>
-                        <strong>{filme['nomeFilme']}</strong> ({filme['ano']}) <br>
+                        <strong>{filme['nomeFilme']}</strong>
+                        Ano: {filme['ano']} <br>
                         Diretor: {filme['diretor']} <br>
                         Atores: {filme['atores']} <br>
                         Gênero: {filme['genero']} <br>
@@ -117,10 +119,12 @@ class MyHandle(SimpleHTTPRequestHandler):
                 with open("listar_filmes.html", "r", encoding="utf-8") as f:
                     content = f.read()
 
-                # insere a lista no lugar do article
-                content = content.replace(
-                    '<article id="listaFilmes" class="mensagemVazia">\n <p> Carregando filmes...</p>\n </article>',
-                    f'<article id="listaFilmes">{lista_html}</article>'
+               # insere a lista no lugar do article (independente dos espaços)
+                content = re.sub(
+                    r'<article id="listaFilmes".*?</article>',
+                    f'<article id="listaFilmes">{lista_html}</article>',
+                    content,
+                    flags=re.DOTALL
                 )
 
                 # envia resposta final
@@ -204,7 +208,7 @@ class MyHandle(SimpleHTTPRequestHandler):
 
             # --- REDIRECIONAMENTO PARA LISTAGEM ---
             self.send_response(303)  # código 303 = redirecionamento após POST
-            self.send_header("Location", "/listar_filmes.html")
+            self.send_header("Location", "/listarfilmes")
             self.end_headers()
 
         else:
