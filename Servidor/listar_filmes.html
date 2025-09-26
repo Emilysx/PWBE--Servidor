@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"  />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <script src="scritp.js" defer></script>
     <title> Ver Filmes </title>
 </head>
+
 <body>
     <header>
         <h1>Filmes</h1>
     </header>
-    
+
     <main>
         <section class="containerPrincipalFilmes">
-            
-            <!-- vai ser substituído pelo Python -->
-            <article id="listaFilmes" class="mensagemVazia">
-                <p>Carregando filmes...</p>
+
+            <!-- vai ser substituído pelo Python / JavaScript -->
+            <article id="listaFilmes">
+                <h2>Filmes Cadastrados</h2>
+                <ul id="filmesLista"></ul>
             </article>
-            
+
+
             <nav class="navegacao">
-                <a href="cadastro.html" class="botaoSecundario">Cadastrar Novo Filme</a>
                 <a href="index.html" class="botaoSecundario">Voltar à Página Inicial</a>
+                <a href="cadastro.html" class="botaoSecundario">Cadastrar Novo Filme</a>
             </nav>
         </section>
     </main>
-    
+
     <footer>
         <p>&copy; 2025 Filmes - Sistema de Gerenciamento de Filmes</p>
     </footer>
 
 </body>
+
 </html>

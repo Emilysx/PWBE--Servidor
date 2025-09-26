@@ -27,12 +27,21 @@
         "sinopse": "Cinderela, maltratada pela madrasta, vai ao baile com a ajuda da Fada Madrinha, encanta o Príncipe e deixa para trás o sapatinho de cristal que muda sua vida."
     },
     {
-        "nomeFilme": "Bela, Fera, Gaston",
-        "atores": " Bela, Fera",
+        "nomeFilme": "Bela e a Fera",
+        "atores": "Bela, Fera, Gaston",
         "diretor": "Gary Trousdale, Kirk Wise",
         "ano": "1991",
         "genero": "Animação, Fantasia",
         "produtora": "Walt Disney Animation Studios",
         "sinopse": "Bela se sacrifica pelo pai e passa a viver no castelo da Fera. Aos poucos, descobre sua bondade e, com o verdadeiro amor, quebra a maldição."
+    },
+    {
+        "nomeFilme": "A Princesa e o Sapo",
+        "atores": "Tiana, Charlotte, Naveen, Ray, Louis.",
+        "diretor": "John Musker, Ron Clements",
+        "ano": "2009",
+        "genero": "Fantasia, Animação",
+        "produtora": "The Walt Disney Company",
+        "sinopse": "Tiana sonha um dia abrir o seu próprio restaurante em Nova Orleans. Seus planos tomam um rumo diferente quando ela conhece o príncipe Naveen."
     }
 ]

@@ -93,49 +93,63 @@ class MyHandle(SimpleHTTPRequestHandler):
             except FileNotFoundError:
                 self.send_error(404, "File Not Found")
 
-        # rota /Listar Filmes
-        elif path in ["/listarfilmes", "/listarfilmes/", "/listar_filmes.html"]:
+        # # rota /Listar Filmes
+        # elif path in ["/listarfilmes", "/listarfilmes/", "/listar_filmes.html"]:
+        #     try:
+        #         with open("filmes.json", "r", encoding="utf-8") as f:
+        #             filmes = json.load(f)
+
+        #         # monta lista em HTML
+        #         lista_html = "<h2>Filmes Cadastrados</h2><ul>"
+        #         for filme in filmes:
+        #             lista_html += f"""
+        #             <li>
+        #                 <strong>{filme['nomeFilme']}</strong>
+        #                 Ano: {filme['ano']} <br>
+        #                 Diretor: {filme['diretor']} <br>
+        #                 Atores: {filme['atores']} <br>
+        #                 Gênero: {filme['genero']} <br>
+        #                 Produtora: {filme['produtora']} <br>
+        #                 Sinopse: {filme['sinopse']}
+        #             </li><br>
+        #             """
+        #         lista_html += "</ul>"
+
+        #         # abre o HTML base
+        #         with open("listar_filmes.html", "r", encoding="utf-8") as f:
+        #             content = f.read()
+
+        #        # insere a lista no lugar do article (independente dos espaços)
+        #         content = re.sub(
+        #             r'<article id="listaFilmes".*?</article>',
+        #             f'<article id="listaFilmes">{lista_html}</article>',
+        #             content,
+        #             flags=re.DOTALL
+        #         )
+
+        #         # envia resposta final
+        #         self.send_response(200)
+        #         self.send_header("Content-type", "text/html")
+        #         self.end_headers()
+        #         self.wfile.write(content.encode("utf-8"))
+
+
+        #     except FileNotFoundError:
+        #         self.send_error(404, "Arquivo de filmes não encontrado")
+
+        elif path in ["/api/filmes"]:
             try:
                 with open("filmes.json", "r", encoding="utf-8") as f:
                     filmes = json.load(f)
 
-                # monta lista em HTML
-                lista_html = "<h2>Filmes Cadastrados</h2><ul>"
-                for filme in filmes:
-                    lista_html += f"""
-                    <li>
-                        <strong>{filme['nomeFilme']}</strong>
-                        Ano: {filme['ano']} <br>
-                        Diretor: {filme['diretor']} <br>
-                        Atores: {filme['atores']} <br>
-                        Gênero: {filme['genero']} <br>
-                        Produtora: {filme['produtora']} <br>
-                        Sinopse: {filme['sinopse']}
-                    </li><br>
-                    """
-                lista_html += "</ul>"
-
-                # abre o HTML base
-                with open("listar_filmes.html", "r", encoding="utf-8") as f:
-                    content = f.read()
-
-               # insere a lista no lugar do article (independente dos espaços)
-                content = re.sub(
-                    r'<article id="listaFilmes".*?</article>',
-                    f'<article id="listaFilmes">{lista_html}</article>',
-                    content,
-                    flags=re.DOTALL
-                )
-
-                # envia resposta final
                 self.send_response(200)
-                self.send_header("Content-type", "text/html")
+                self.send_header("Content-type", "application/json; charset=utf-8")
                 self.end_headers()
-                self.wfile.write(content.encode("utf-8"))
-
+                self.wfile.write(json.dumps(filmes, ensure_ascii=False).encode("utf-8"))
 
             except FileNotFoundError:
                 self.send_error(404, "Arquivo de filmes não encontrado")
+
 
         else:
             super().do_GET()
@@ -206,10 +220,11 @@ class MyHandle(SimpleHTTPRequestHandler):
             print("Novo cadastro de filme:")
             print(json.dumps(novo_filme, indent=4, ensure_ascii=False))
 
-            # --- REDIRECIONAMENTO PARA LISTAGEM ---
-            self.send_response(303)  # código 303 = redirecionamento após POST
-            self.send_header("Location", "/listarfilmes")
+            # Redirecionamento para listagem
+            self.send_response(303)
+            self.send_header("Location", "/listar_filmes.html")
             self.end_headers()
+
 
         else:
             super(MyHandle, self).do_POST()
