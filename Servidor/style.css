@@ -8,6 +8,7 @@
   --border-color: #ebebeb;
   --success-color: #10b981;
   --error-color: #ef4444;
+  --verde-botao: #4CAF50;
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
@@ -308,6 +309,42 @@ h2 {
 
 #listaFilmes li strong:first-child::after {
   content: "🎬";
+}
+
+/* Estilo para o botão de ação (Editar e Excluir) */
+.botaoPequeno {
+  background-color: transparent;  
+  color: var(--verde-botao); 
+  border: 2px solid var(--verde-botao); 
+  padding: 8px 15px; 
+  font-size: 16px; 
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.botaoPequeno:hover {
+  background-color: var(--verde-botao); 
+  color: white; 
+  transform: translateY(-2px);
+}
+
+.botaoPequenoExcluir {
+  color: var(--error-color); 
+  border: 2px solid var(--error-color); 
+}
+
+.botaoPequenoExcluir:hover {
+  background-color: var(--error-color); 
+  color: white; 
+  transform: translateY(-2px);
+}
+
+.acoesCard {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px; 
+  justify-content: flex-start;
 }
 
 footer {

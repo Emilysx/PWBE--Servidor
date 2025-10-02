@@ -226,6 +226,57 @@ class MyHandle(SimpleHTTPRequestHandler):
             self.send_header("Location", "/listar_filmes.html")
             self.end_headers()
 
+        elif self.path == '/edit':
+            content_length = int(self.headers['Content-length'])
+            body = self.rfile.read(content_length).decode('utf-8')
+            form_data = parse_qs(body)
+
+            index = int(form_data.get('index', [-1])[0])
+            filmes = carregar_filmes()
+
+            if 0 <= index < len(filmes):
+
+                # Atualiza o filme no índice
+                filmes[index].update({
+                    "filme": form_data.get('filme', [""])[0],
+                    "atores": form_data.get('atores', [""])[0],
+                    "diretor": form_data.get('diretor', [""])[0],
+                    "ano": form_data.get('ano', [""])[0],
+                    "genero": form_data.get('genero', [""])[0],
+                    "produtora": form_data.get('produtora', [""])[0],
+                    "sinopse": form_data.get('sinopse', [""])[0]
+                })
+
+                salvar_filmes(filmes)
+                resposta = "Filme editado com sucesso!"
+            else:
+                resposta = "Filme não encontrado."
+
+            self.send_response(200)
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(resposta.encode('utf-8'))
+
+        elif self.path == '/delete':
+            content_length = int(self.headers['Content-length'])
+            body = self.rfile.read(content_length).decode('utf-8')
+            form_data = parse_qs(body)
+
+            index = int(form_data.get('index', [-1])[0])
+            filmes = carregar_filmes()
+
+            if 0 <= index < len(filmes):
+                removido = filmes.pop(index)  # Remove o filme pelo índice
+                salvar_filmes(filmes)  # Salva os filmes atualizados no arquivo
+                resposta = f"Filme '{removido['filme']}' deletado com sucesso!"
+            else:
+                resposta = "Filme não encontrado."
+
+            self.send_response(200)
+            self.send_header("Content-type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(resposta.encode('utf-8'))
+
 
         else:
             super(MyHandle, self).do_POST()
