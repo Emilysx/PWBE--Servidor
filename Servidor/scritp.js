@@ -1,47 +1,49 @@
 async function carregarFilmes() {
   try {
-    const resp = await fetch("/api/filmes");  // Chama a API para pegar os filmes
+    const resp = await fetch("/api/filmes"); // busca dados do servidor
     const filmes = await resp.json();
 
     const lista = document.getElementById("filmesLista");
-    lista.innerHTML = "";  // Limpa a lista antes de popular
+    lista.innerHTML = ""; // limpa antes de popular
 
-    if (filmes.length === 0) {
+    if (!filmes || filmes.length === 0) {
       lista.innerHTML = `
         <article class="mensagemVazia">
-          <p>Não há filmes cadastrados no momento.</p>
-          <p>Comece adicionando seu primeiro filme ao sistema!</p>
+          <p>🎬 Não há filmes cadastrados no momento.</p>
+          <p>Comece adicionando seu primeiro filme!</p>
         </article>
       `;
       return;
     }
 
-    filmes.forEach((filme, index) => {
+    filmes.forEach((filme) => {
       const li = document.createElement("li");
 
-      // Preenche cada item da lista com as informações do filme
+      // Monta o card de cada filme com dados do banco
       li.innerHTML = `
-        <strong>${filme.nomeFilme}</strong><br>
-        Ano: ${filme.ano} <br>
-        Diretor: ${filme.diretor} <br>
-        Atores: ${filme.atores} <br>
-        Gênero: ${filme.genero} <br>
-        Produtora: ${filme.produtora} <br>
-        Sinopse: ${filme.sinopse}<br>
+        <div class="cardFilme">
+          <img src="${filme.poster || 'https://via.placeholder.com/150x220?text=Sem+Imagem'}"
+               alt="Poster do filme" class="posterFilme">
 
-       <div class="acoesCard">
-        <!-- Botão de Editar com ícone -->
-        <button class="botaoPequeno" onclick="editarFilme(${index})">
-          <i class="fas fa-edit"></i> <!-- Ícone de edição -->
-        </button>
+          <div class="infoFilme">
+            <h3>${filme.nomeFilme}</h3>
+            <p><strong>Ano:</strong> ${filme.ano || "N/A"}</p>
+            <p><strong>Duração:</strong> ${filme.tempo_duracao || "N/A"}</p>
+            <p><strong>Linguagem:</strong> ${filme.linguagem || "N/A"}</p>
+          </div>
 
-        <!-- Botão de Excluir com ícone -->
-        <button class="botaoPequeno botaoPequenoExcluir" onclick="deletarFilme(${index})">
-          <i class="fas fa-trash"></i> <!-- Ícone de lixeira (excluir) -->
-        </button>
-      </div>
+          <div class="acoesCard">
+            <button class="botaoPequeno" onclick="editarFilme(${filme.id_filme})">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="botaoPequeno botaoPequenoExcluir" onclick="deletarFilme(${filme.id_filme})">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
       `;
-      lista.appendChild(li);  // Adiciona o item na lista
+
+      lista.appendChild(li);
     });
   } catch (err) {
     console.error("Erro ao carregar filmes:", err);
@@ -100,3 +102,46 @@ async function editarFilme(index) {
 
 // Carrega os filmes assim que a página for carregada
 carregarFilmes();
+
+
+// --- Controle do envio do formulário e modal de feedback ---
+
+const formCadastro = document.getElementById("formCadastro");
+
+if (formCadastro) {
+  formCadastro.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Impede o reload da página
+
+    const formData = new FormData(formCadastro);
+
+    const resp = await fetch("/cadastro", {
+      method: "POST",
+      body: new URLSearchParams(formData)
+    });
+
+    const texto = await resp.text();
+    mostrarModal(texto); // Exibe a resposta do servidor
+  });
+}
+
+function mostrarModal(mensagem) {
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+
+  modal.innerHTML = `
+    <div class="modal-conteudo">
+      <h2>${mensagem.includes("Erro") ? "❌ Erro" : "✅ Sucesso"}</h2>
+      <p>${mensagem}</p>
+      <button id="fecharModal">OK</button>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  document.getElementById("fecharModal").addEventListener("click", () => {
+    modal.remove();
+    if (mensagem.includes("sucesso")) {
+      window.location.href = "/listar_filmes.html";
+    }
+  });
+}

@@ -4,110 +4,119 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title> Cadastro </title>
+    <script src="scritp.js" defer></script>
+    <title>Cadastro de Filme</title>
 </head>
+
 <body>
     <header>
-        <h1> Filmes</h1>
+        <h1>Cadastro de Filmes</h1>
     </header>
-    
+
     <main>
         <section class="containerPrincipalCadastro">
             <h2>Cadastrar Novo Filme</h2>
-            
-            <form action="/cadastro" method="post">
+
+           <form id="formCadastro" method="post">
                 <div class="formularioCadastro">
                     <div class="colunaCadastro">
+                        
+                        <!-- Título -->
                         <fieldset class="campoFormulario">
-                            <label for="nomeFilme" class="labelFormulario">Nome do Filme:</label>
+                            <label for="titulo" class="labelFormulario">Título do Filme:</label>
                             <input 
                                 type="text" 
-                                id="nomeFilme" 
-                                name="nomeFilme" 
+                                id="titulo" 
+                                name="titulo" 
                                 class="inputFormulario" 
-                                placeholder="Digite o nome do filme"
+                                placeholder="Digite o título do filme" 
+                                required
                             />
                         </fieldset>
-                        
+
+                        <!-- Tempo de Duração -->
                         <fieldset class="campoFormulario">
-                            <label for="atores" class="labelFormulario">Atores:</label>
+                            <label for="tempo_duracao" class="labelFormulario">Duração:</label>
                             <input 
-                                type="text" 
-                                id="atores" 
-                                name="atores" 
+                                type="time" 
+                                id="tempo_duracao" 
+                                name="tempo_duracao" 
                                 class="inputFormulario" 
-                                placeholder="Digite os nomes dos atores principais"
+                                step="1" 
+                                placeholder="HH:MM:SS"
                             />
                         </fieldset>
-                        
+
+                        <!-- Ano -->
                         <fieldset class="campoFormulario">
-                            <label for="diretor" class="labelFormulario">Diretor:</label>
-                            <input 
-                                type="text" 
-                                id="diretor" 
-                                name="diretor" 
-                                class="inputFormulario" 
-                                placeholder="Digite o nome do diretor"
-                            />
-                        </fieldset>
-                        
-                        <fieldset class="campoFormulario">
-                            <label for="ano" class="labelFormulario">Ano:</label>
+                            <label for="ano" class="labelFormulario">Ano de Lançamento:</label>
                             <input 
                                 type="number" 
                                 id="ano" 
                                 name="ano" 
                                 class="inputFormulario" 
-                                min="1700" 
+                                min="1900" 
                                 max="2025" 
-                                placeholder="Ano de lançamento"
+                                placeholder="Ex: 2024" 
+                                required
                             />
                         </fieldset>
                     </div>
-                    
+
                     <div class="colunaCadastro">
+
+                        <!-- Poster -->
                         <fieldset class="campoFormulario">
-                            <label for="genero" class="labelFormulario">Gênero:</label>
+                            <label for="poster" class="labelFormulario">URL do Poster:</label>
                             <input 
-                                type="text" 
-                                id="genero" 
-                                name="genero" 
+                                type="url" 
+                                id="poster" 
+                                name="poster" 
                                 class="inputFormulario" 
-                                placeholder="Ex: Ação, Drama, Comédia"
+                                placeholder="Cole o link da imagem do poster" 
                             />
                         </fieldset>
-                        
+
+                        <!-- Linguagem -->
                         <fieldset class="campoFormulario">
-                            <label for="produtora" class="labelFormulario">Produtora:</label>
-                            <input 
-                                type="text" 
-                                id="produtora" 
-                                name="produtora" 
-                                class="inputFormulario" 
-                                placeholder="Nome da produtora"
-                            />
-                        </fieldset>
-                        
-                        <fieldset class="campoFormulario">
-                            <label for="sinopse" class="labelFormulario">Sinopse:</label>
-                            <textarea 
-                                id="sinopse" 
-                                name="sinopse" 
-                                class="textareaFormulario" 
-                                placeholder="Digite um resumo do filme..."
-                            ></textarea>
+                            <label for="id_linguagem" class="labelFormulario">Linguagem:</label>
+                            <select id="id_linguagem" name="id_linguagem" class="inputFormulario" required>
+                                <option value="" disabled selected>Selecione uma linguagem</option>
+                                <option value="1">Inglês</option>
+                                <option value="2">Português</option>
+                                <option value="3">Espanhol</option>
+                                <option value="4">Francês</option>
+                                <option value="5">Alemão</option>
+                                <option value="6">Italiano</option>
+                                <option value="7">Japonês</option>
+                                <option value="8">Chinês</option>
+                                <option value="9">Russo</option>
+                                <option value="10">Coreano</option>
+
+                                <option value="11">Árabe</option>
+                                <option value="12">Hindi</option>
+                                <option value="13">Holandês</option>
+                                <option value="14">Sueco</option>
+                                <option value="15">Turco</option>
+                                <option value="16">Grego</option>
+                                <option value="17">Tailandês</option>
+                                <option value="18">Vietnamita</option>
+                                <option value="19">Polonês</option>
+                                <option value="20">Dinamarquês</option>
+                            </select>
                         </fieldset>
                     </div>
                 </div>
-                
+
+                <!-- Botões -->
                 <div class="botoesCadastro">
-                    <a href="index.html " class="botaoSecundario">Voltar à Página Inicial</a>
+                    <a href="index.html" class="botaoSecundario">Voltar à Página Inicial</a>
                     <button type="submit" class="botaoPrimario">Cadastrar Filme</button>
                 </div>
             </form>
         </section>
     </main>
-    
+
     <footer>
         <p>&copy; 2025 Filmes - Sistema de Gerenciamento de Filmes</p>
     </footer>
