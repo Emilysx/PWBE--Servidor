@@ -57,7 +57,7 @@ def carregar_filmes():
         cursor.execute("SELECT * FROM webserver_filmes WHERE id_filme = %s...")
         resultado = cursor.fetchall()
         print(resultado)
-
+        # talves seria aq 
         cursor.close()
         mydb.commit()
         return resultado
